@@ -33,6 +33,17 @@ export default class App extends Component {
     );
   }
 
+  getWifiList = () => {
+    WifiManager.loadWifiList().then(
+      (result) => {
+        console.log(result);
+      },
+      (result) => {
+        console.log(result);
+      }
+    );
+  }
+
   permissions = async() => {
     try {
       const granted = await PermissionsAndroid.request(
@@ -47,7 +58,10 @@ export default class App extends Component {
             },
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          setInterval(this.getSign, 1000);
+          //setInterval(this.getSign, 1000); 
+          this.getSign();
+          this.getWifiList();
+          this.getSign();
       } else {
           // Permission denied
       }
