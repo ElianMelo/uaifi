@@ -8,8 +8,18 @@ import {
   View,
   Image,
   Button,
-  PermissionsAndroid
+  PermissionsAndroid,
+  Dimensions
 } from 'react-native';
+
+import {
+  LineChart,
+  BarChart,
+  PieChart,
+  ProgressChart,
+  ContributionGraph,
+  StackedBarChart
+} from "react-native-chart-kit";
 
 import WifiManager from "react-native-wifi-reborn";
 import IntervalService from './src/services/IntervalService';
@@ -31,7 +41,7 @@ export default class App extends Component {
       descriptionText: "Aplicativo para avaliar o sinal de WiFi",
       signalNowDescription: "Bom",
       signalNowCode: 3,
-      signalNowDbm: -50,
+      signalNowDbm: -50
     };
   }
 
@@ -39,9 +49,9 @@ export default class App extends Component {
     WifiManager.getCurrentSignalStrength().then(
       (dbm) => {
         let interval = IntervalService.calcInterval(dbm);
-        this.setState({signalNowDescription: interval.desc})
-        this.setState({signalNowCode: interval.code})
-        this.setState({signalNowDbm: dbm})
+        this.setState({ signalNowDescription: interval.desc })
+        this.setState({ signalNowCode: interval.code })
+        this.setState({ signalNowDbm: dbm })
       }
     );
   }
@@ -54,7 +64,7 @@ export default class App extends Component {
     );
   }
 
-  permissions = async() => {
+  permissions = async () => {
     try {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
@@ -64,13 +74,13 @@ export default class App extends Component {
             "Esse aplicatiVO precisa de sua permissão de localização" +
             "para buscar por conexões wifi.",
           buttonNegative: 'RECUSAR',
-          buttonPositive: 'PERMITIR', 
-            },
+          buttonPositive: 'PERMITIR',
+        },
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          setInterval(this.getSign, 500); 
-          this.getSign();
-          this.getWifiList();
+        setInterval(this.getSign, 500);
+        this.getSign();
+        this.getWifiList();
       }
     } catch (err) {
       console.warn(err)
@@ -81,7 +91,7 @@ export default class App extends Component {
     this.permissions();
   }
 
-  render () {
+  render() {
     return (
       <SafeAreaView>
         <ScrollView
@@ -104,7 +114,40 @@ export default class App extends Component {
             <View style={styles.roomButton2}>
               <Button
                 title="Cadastrar Cômodo"
-                accessibilityLabel="Learn more about this purple button"
+              />
+            </View>
+            <View style={styles.graph}>
+            <BarChart
+                data={{
+                  labels: ["Sala", "Cozinha", "Quarto", "Banheiro", "Varanda", "Churrasqueira"],
+                  datasets: [
+                    {
+                      data: [60, 20, 40, 60, 80, 100]
+                    }
+                  ]
+                }}
+                width={Dimensions.get("window").width - 8}
+                height={400}
+                fromZero={true}
+                chartConfig={{
+                  backgroundColor: "#A9A9A9",
+                  backgroundGradientFrom: "#A9A9A9",
+                  backgroundGradientTo: "#A9A9A9",
+                  decimalPlaces: 2, // optional, defaults to 2dp
+                  color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                  labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                  style: {
+                    borderRadius: 16
+                  },
+                  propsForDots: {
+                    r: "6",
+                    strokeWidth: "2",
+                    stroke: "#00BFFF"
+                  }
+                }}
+                verticalLabelRotation={90}
+                xLabelsOffset={-20}
+                segments={5}
               />
             </View>
           </View>
@@ -150,4 +193,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
   },
+  graph: {
+    margin: 10
+  }
 });
