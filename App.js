@@ -122,8 +122,8 @@ export default class App extends Component {
                   labels: ["Sala", "Cozinha", "Quarto", "Banheiro", "Varanda", "Churrasqueira"],
                   datasets: [
                     {
-                      data: [60, 20, 40, 60, 80, 100]
-                    }
+                      data: [10, 20, 20, 60, 80, 100]
+                    },
                   ]
                 }}
                 width={Dimensions.get("window").width - 8}
