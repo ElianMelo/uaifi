@@ -1,5 +1,5 @@
-
 import React, { Component } from 'react';
+import WifiInfoCard from '../components/WifiInfoCard';
 
 import {
     StyleSheet,
@@ -39,6 +39,7 @@ export default class WifiList extends Component {
                 >
                     <Text style={styles.addText}>+</Text>
                 </TouchableOpacity>
+                <WifiInfoCard/>
             </View>
         );
     }
