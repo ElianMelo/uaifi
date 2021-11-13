@@ -32,7 +32,7 @@ export default class App extends Component {
   render() {
     return (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator initialRouteName="WifiList">
           <Stack.Screen name="Home" component={Home} options={{ title: 'Página Inicial' }}/>
           <Stack.Screen name="Room" component={Room} options={{ title: 'Cômodos' }}/>
           <Stack.Screen name="WifiList" component={WifiList} options={{ title: 'Lista de Wifi' }}/>

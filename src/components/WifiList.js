@@ -32,13 +32,7 @@ export default class WifiList extends Component {
             <View style={{ flex: 1 }}>
                 <Text style={styles.h1Text}>
                     WifiList
-                </Text>
-                <TouchableOpacity
-                    style={styles.addButton}
-                    onPress={this.onPress}
-                >
-                    <Text style={styles.addText}>+</Text>
-                </TouchableOpacity>
+                </Text>       
                 <WifiInfoCard/>
             </View>
         );

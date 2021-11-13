@@ -6,11 +6,8 @@ export default class WifiService {
         return dbm;
     }
 
-    static getWifiList = () => {
-        WifiManager.loadWifiList().then(
-            (result) => {
-                console.log(result);
-            }
-        );
+    static getWifiList = async () => {
+        let list = await WifiManager.loadWifiList();
+        return list;
     }
 }
