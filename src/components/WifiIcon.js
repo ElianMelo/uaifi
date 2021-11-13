@@ -16,6 +16,7 @@ import WifiService from '../services/WifiService';
 import IntervalService from '../services/IntervalService';
 
 const wifiImages = [
+    require('../../assets/wificode0.png'),
     require('../../assets/wificode1.png'),
     require('../../assets/wificode2.png'),
     require('../../assets/wificode3.png'),
@@ -28,17 +29,28 @@ export default class WifiIcon extends Component {
     constructor(props) {
         super(props);
         this.props = props;
+
+        let interval;
+
+        setTimeout(() => {
+            interval = setInterval(() => {
+                if(this.props.dbm) {
+                    this.setSignal(this.props.dbm);
+                }
+            }, 1000);        
+        }, 1);
+        
         this.state = {
             dbm: props.dbm,
-            signalDescription: "Bom",
-            signalCode: 3,
-            signalDbm: -50,            
+            setSignalInterval: interval,
+            signalDescription: "Sem dados",
+            signalCode: 0,
+            signalDbm: 0,            
         };
-        setInterval(() => {
-            if(this.props.dbm) {
-                this.setSignal(this.props.dbm);
-            }
-        }, 1000);
+    }
+
+    componentWillUnmount(props) {
+        clearInterval(this.state.setSignalInterval);
     }
 
     setSignal = (dbmValue) => {
@@ -92,7 +104,7 @@ export default class WifiIcon extends Component {
                         width: this.props.size,
                         height: this.props.size,
                     }}
-                    source={wifiImages[this.state.signalCode]}
+                    source={wifiImages[this.state.signalCode ? this.state.signalCode : 0]}
                 />
                 {this.props.showDescription && this.renderDescription()}  
             </View>

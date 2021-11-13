@@ -42,13 +42,12 @@ export default class WifiInfoCard extends Component {
     componentDidMount(prevProps) {
         WifiService.getWifiList().then((wifiList) => {
             this.setState({ list: [...wifiList] });
-            console.log(wifiList);
         });
     }
 
     renderItem = ({ item }) => {
         return (
-            <View style={styles.card}>
+            <View style={styles.cardBox}>
                 <View style={styles.cardData}>
                     <Image
                         style={styles.tinyLogo}
@@ -86,24 +85,22 @@ export default class WifiInfoCard extends Component {
     render() {
         return (
             <View>
-                <Text style={styles}>
-                    <FlatList
-                        data={this.state.list}
-                        renderItem={this.renderItem}
-                        keyExtractor={item => item.id}
-                    />
-                </Text>
+                <FlatList
+                    data={this.state.list}
+                    renderItem={this.renderItem}
+                    keyExtractor={item => item.SSID}
+                />
             </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
-    card: {
+    cardBox: {
         backgroundColor: '#778899',
         margin: 8,
         width: Dimensions.get("window").width - 16,
-        borderRadius: 30,
+        borderRadius: 10,
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',

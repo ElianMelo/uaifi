@@ -17,26 +17,27 @@ import {
 } from "react-native-chart-kit";
 
 import WifiService from '../services/WifiService';
-
-import WifiIcon from './WifiIcon';
+import JsonService from '../services/JsonService';
 
 export default class CreateRoom extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            props: props,
             registry: null,
             roomName: null,
             canPress: true,
             modalVisible: false,
             disableRoomName: false,
+            modalDescription: 'Preencha o nome do Cômodo!',
             buttonColor: '#2196F3',
             buttonLabel: 'Registrar',
             labels: ['0'],
             data: [0],
-            max: null,
-            min: null,
-            avg: null
+            max: 0,
+            min: 0,
+            avg: 0
         };
     }
 
@@ -44,7 +45,7 @@ export default class CreateRoom extends Component {
         this.setState({ roomName: text });
     }
 
-    createReport = () => {
+    createReport = async () => {
         let data = this.state.data;
         let max = Math.max(...data);
         let min = Math.min(...data);
@@ -52,12 +53,27 @@ export default class CreateRoom extends Component {
         let avg = (sum / data.length).toFixed(2) || 0;
 
         this.setState({ max, min, avg });
-        this.setState({ disableRoomName: true})
+        this.setState({ disableRoomName: true});
+
+        let rooms = await JsonService.getRooms();
+        await JsonService.setRooms([...rooms, {
+            name: this.state.roomName,
+            max: this.state.max,
+            min: this.state.min,
+            avg: this.state.avg
+        }]);
+        this.state.props.navigation.navigate('Room');
     }
 
     initRegistry = async () => {
         if (!this.state.roomName) {
-            this.setState({ modalVisible: true })
+            this.setState({ modalDescription: 'Preencha o nome do cômodo!'});
+            this.setState({ modalVisible: true });
+            return;
+        }
+        if(await JsonService.isRoomNameInUse(this.state.roomName)) {
+            this.setState({ modalDescription: 'Nome de cômodo já está sendo utilizado'});
+            this.setState({ modalVisible: true });
             return;
         }
         if (this.state.canPress) {
@@ -99,7 +115,7 @@ export default class CreateRoom extends Component {
                     >
                         <View style={styles.centeredView}>
                             <View style={styles.modalView}>
-                                <Text style={styles.pText}>Preencha o nome do Cômodo!</Text>
+                                <Text style={styles.modalText}>{this.state.modalDescription}</Text>
                                 <Pressable
                                     style={[styles.button, styles.buttonClose]}
                                     onPress={() => this.setState({ modalVisible: !this.state.modalVisible })}
@@ -153,18 +169,21 @@ export default class CreateRoom extends Component {
                     bezier
                 />
                 <View>
-                    <Text style={styles.h1Text}>Relatório Sinal (DBM)</Text>
+                    <Text style={styles.h1Text}>Instruções</Text>
                     <View style={styles.reportLine}>
-                        <Text style={styles.pText}>Melhor sinal: {this.state?.max}</Text>
-                        <WifiIcon size={30} notCalculate={true} dbm={this.state?.max}/>
+                        <Text style={styles.pText}>1. Preencha o nome do cômodo</Text>
                     </View>
                     <View style={styles.reportLine}>
-                        <Text style={styles.pText}>Pior sinal: {this.state?.min}</Text>
-                        <WifiIcon size={30} notCalculate={true} dbm={this.state?.min}/>
+                        <Text style={styles.pText}>2. Posicione dentro do cômodo a ser analisado</Text>
                     </View>
                     <View style={styles.reportLine}>
-                        <Text style={styles.pText}>Média sinal: {this.state?.avg}</Text>
-                        <WifiIcon size={30} notCalculate={true} dbm={this.state?.avg}/>
+                        <Text style={styles.pText}>3. Pressione o botão "Registrar"</Text>
+                    </View>
+                    <View style={styles.reportLine}>
+                        <Text style={styles.pText}>4. Percorra a área do cômodo</Text>
+                    </View>
+                    <View style={styles.reportLine}>
+                        <Text style={styles.pText}>5. Pressione o botão "Finalizar"</Text>
                     </View>
                 </View>
                 <View style={styles.buttonView}>
@@ -286,6 +305,9 @@ const styles = StyleSheet.create({
         textAlign: "center"
     },
     modalText: {
+        fontSize: 16,
+        margin: 8,
+        color: "#000",
         marginBottom: 15,
         textAlign: "center"
     }

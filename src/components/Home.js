@@ -50,7 +50,7 @@ export default class Home extends Component {
                     <Button
                         title="Cômodos"
                         onPress={() =>
-                            this.state.props.navigation.navigate('Room', { detail: 'Esse é o detalhe do item' })
+                            this.state.props.navigation.navigate('Room')
                         }
                     >
                     </Button>
@@ -59,7 +59,7 @@ export default class Home extends Component {
                     <Button
                         title="Lista de Wifi"
                         onPress={() =>
-                            this.state.props.navigation.navigate('WifiList', { detail: 'Esse é o detalhe do item' })
+                            this.state.props.navigation.navigate('WifiList')
                         }
                     >
                     </Button>
@@ -68,7 +68,7 @@ export default class Home extends Component {
                     <Button
                         title="Relatório"
                         onPress={() =>
-                            this.state.props.navigation.navigate('Report', { detail: 'Esse é o detalhe do item' })
+                            this.state.props.navigation.navigate('Report')
                         }
                     >
                     </Button>
