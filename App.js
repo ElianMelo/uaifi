@@ -16,6 +16,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Home from './src/components/Home';
 import Room from './src/components/Room';
+import CreateRoom from './src/components/CreateRoom';
 import WifiList from './src/components/WifiList';
 import Report from './src/components/Report';
 
@@ -32,9 +33,10 @@ export default class App extends Component {
   render() {
     return (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator initialRouteName="CreateRoom">
           <Stack.Screen name="Home" component={Home} options={{ title: 'Página Inicial' }}/>
           <Stack.Screen name="Room" component={Room} options={{ title: 'Cômodos' }}/>
+          <Stack.Screen name="CreateRoom" component={CreateRoom} options={{ title: 'Criar Cômodo' }}/>
           <Stack.Screen name="WifiList" component={WifiList} options={{ title: 'Lista de Wifi' }}/>
           <Stack.Screen name="Report" component={Report} options={{ title: 'Relatório' }}/>
         </Stack.Navigator>
