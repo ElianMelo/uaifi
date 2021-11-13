@@ -22,45 +22,18 @@ import PermissionService from '../services/PermissionService';
 import IntervalService from '../services/IntervalService';
 import WifiService from '../services/WifiService';
 
+import WifiIcon from './WifiIcon';
+
 export default class Home extends Component {
 
     constructor(props) {
         super(props);
-        this.props = props;
         this.interval;
         this.state = {
             props: props,
             titleText: "Uai Fi",
             descriptionText: "Aplicativo para avaliar o sinal de WiFi",
-            signalNowDescription: "Bom",
-            signalNowCode: 3,
-            signalNowDbm: -50
         };
-    }
-
-    setSignal = () => {
-        WifiService.getSignal().then((dbm) => {
-            let interval = IntervalService.calcInterval(dbm);
-            this.setState({ signalNowDescription: interval.desc })
-            this.setState({ signalNowCode: interval.code })
-            this.setState({ signalNowDbm: dbm })
-        })
-    }
-
-    getPermission = async () => {
-        let permission = await PermissionService.getPermissions();
-
-        if (permission == true) {
-            if (!this.interval) {
-                this.interval = setInterval(() => {
-                    this.setSignal();
-                }, 500);
-            }
-        }
-    }
-
-    componentDidMount(prevProps) {
-        this.getPermission();
     }
 
     render() {
@@ -72,14 +45,7 @@ export default class Home extends Component {
                     </Text>
                     <Text style={styles.h2Text}>{this.state.descriptionText}</Text>
                 </View>
-                <View style={styles.imageBox}>
-                    <Image
-                        style={styles.tinyLogo}
-                        source={wifiImages[this.state.signalNowCode]}
-                    />
-                    <Text style={styles.pText}>{"Status do Sinal: " + this.state.signalNowDescription + "\n"}</Text>
-                    <Text style={styles.pText}>{"Valor do Sinal em DBM: " + this.state.signalNowDbm + "\n"}</Text>
-                </View>
+                <WifiIcon size={100} showDescription={true}/>
                 <View style={styles.buttonView}> 
                     <Button
                         title="Cômodos"
@@ -107,6 +73,7 @@ export default class Home extends Component {
                     >
                     </Button>
                 </View>
+                
             </View >
         );
     }
@@ -136,15 +103,6 @@ const styles = StyleSheet.create({
     pText: {
         fontSize: 12,
         color: "#000"
-    },
-    imageBox: {
-        display: "flex",
-        alignItems: "center",
-        padding: 24
-    },
-    tinyLogo: {
-        width: 100,
-        height: 100,
     },
     roomButton: {
         display: 'flex',

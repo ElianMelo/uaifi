@@ -9,13 +9,14 @@ import {
     TouchableOpacity,
     Dimensions
 } from 'react-native';
-
 export default class Room extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            teste: "Teste",
+            props: props,
+            labels: [],
+            data: []
         };
     }
 
@@ -24,7 +25,7 @@ export default class Room extends Component {
     }
 
     onPress = () => {
-
+        this.state.props.navigation.navigate('CreateRoom', { detail: 'Esse é o detalhe do item' })
     }
 
     render() {
