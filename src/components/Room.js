@@ -27,12 +27,7 @@ export default class Room extends Component {
         this.state = {
             props: props,
             willFocusSubscription: null,
-            rooms: [{
-                name: "empty",
-                max: 0,
-                min: 0,
-                avg: 0
-            }],
+            rooms: [],
             labels: [0],
             data: [0]
         };

@@ -15,31 +15,30 @@ export default class JsonService {
         await this.getPermissions();
 
         if(! await RNFS.exists(FILEPATH)) {
-            this.setRooms([{
-                name: "empty",
-                max: 0,
-                min: 0,
-                avg: 0
-            }]);
+            this.setRooms([]);
         }
 
         let res = await RNFS.readFile(FILEPATH, 'utf8').then();
 
         if(res) {
-            return JSON.parse(res)
+            try {
+                return JSON.parse(res);
+            } catch(err) {
+                return [];
+            }
         }
     }
 
     static isRoomNameInUse = async (name) => {
         await this.getPermissions();
 
-        let isRoomNameInUse = false;
+        let nameInUse = false;
         if(await RNFS.exists(FILEPATH)) {
-            let rooms = await this.getRooms();
+            let rooms = await this.getRooms().then();
             let item = rooms.find(i => i.name == name);
-            isRoomNameInUse = (item?.name ? true : false);
+            nameInUse = (item?.name ? true : false);
         }
-        return isRoomNameInUse;
+        return nameInUse;
     }
 
     static removeRoom = async (name) => {
