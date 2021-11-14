@@ -127,12 +127,16 @@ export default class Room extends Component {
                     height={300}
                     fromZero={true}
                     yAxisSuffix={" %"}
+                    paddingRight={"50"}
+                    paddingLeft={"50"}
+                    paddingTop={"50"}
                     chartConfig={{
                         backgroundColor: "#A9A9A9",
                         backgroundGradientFrom: "#A9A9A9",
                         backgroundGradientTo: "#A9A9A9",
-                        paddingRight: 30,
-                        paddingTop: 30,
+                        paddingRight: 50,
+                        paddingLeft: 50,
+                        paddingTop: 50,
                         horizontalOffset: 10,
                         count: 10,
                         decimalPlaces: 0,

@@ -91,10 +91,7 @@ export default class WifiList extends Component {
 
     render() {
         return (
-            <View style={{ flex: 1 }}>
-                <Text style={styles.h1Text}>
-                    WiFi dentro do alcance
-                </Text>
+            <View style={{ flex: 1 , marginTop: 8}}>
                 <FlatList
                     data={this.state.list}
                     renderItem={this.renderItem}
