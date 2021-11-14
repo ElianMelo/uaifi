@@ -31,6 +31,8 @@ export default class JsonService {
     }
 
     static isRoomNameInUse = async (name) => {
+        await this.getPermissions();
+
         let isRoomNameInUse = false;
         if(await RNFS.exists(FILEPATH)) {
             let rooms = await this.getRooms();
