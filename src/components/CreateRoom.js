@@ -157,26 +157,26 @@ export default class CreateRoom extends Component {
                     width={Dimensions.get("window").width}
                     height={256}
                     verticalLabelRotation={30}
+                    yAxisSuffix={" dbm"}
                     chartConfig={{
                         backgroundColor: "#A9A9A9",
                         backgroundGradientFrom: "#A9A9A9",
                         backgroundGradientTo: "#A9A9A9",
-                        decimalPlaces: 2, // optional, defaults to 2dp
+                        decimalPlaces: 0,
                         color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                         labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                         style: {
                             borderRadius: 16
                         },
                         propsForDots: {
-                            r: "6",
-                            strokeWidth: "2",
+                            r: "2",
+                            strokeWidth: "1",
                             stroke: "#A9A9A9"
                         }
                     }}
                     verticalLabelRotation={90}
                     xLabelsOffset={-10}
                     segments={5}
-                    bezier
                 />
                 <View>
                     <Text style={styles.h1Text}>Instruções</Text>

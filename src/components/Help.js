@@ -12,7 +12,7 @@ import {
 
 import JsonService from '../services/JsonService';
 
-export default class Report extends Component {
+export default class Help extends Component {
 
     constructor(props) {
         super(props);

@@ -19,7 +19,7 @@ import IntervalService from '../services/IntervalService';
 
 import JsonService from '../services/JsonService';
 
-import WifiIcon from './WifiIcon';
+import WifiIconStatic from './WifiIconStatic';
 export default class Room extends Component {
 
     constructor(props) {
@@ -55,13 +55,16 @@ export default class Room extends Component {
             this.setState({ rooms });
         }
 
-        this.setState({ labels: [] });
-        this.setState({ data: [] });
+        let labelGraph = [];
+        let dataGraph = [];
 
         rooms?.forEach((item) => {
-            this.setState({ labels: [...this.state.labels, item.name] });
-            this.setState({ data: [...this.state.data, IntervalService.calcInterval(item.avg).graph] });
+            labelGraph.push(item.name);
+            dataGraph.push(IntervalService.calcInterval(item.avg).graph);
         });
+
+        this.setState({ labels: labelGraph });
+        this.setState({ data: dataGraph });
     }
 
     onPress = () => {
@@ -78,21 +81,21 @@ export default class Room extends Component {
             <View style={styles.card}>
                 <View style={styles.cardRows}>    
                     <View style={styles.cardAvgIcon}>
-                        <WifiIcon size={70} notCalculate={true} dbm={item.avg} />
+                        <WifiIconStatic size={70} dbm={item.avg} />
                     </View>
                     <View>
                         <Text style={styles.cardH1Text}>{item.name}</Text>
                         <View style={styles.reportLine}>
                             <Text style={styles.cardPText}>Melhor sinal: {item.max + " dbm"}</Text>
-                            <WifiIcon size={20} notCalculate={true} dbm={item.max} />
+                            <WifiIconStatic size={20} dbm={item.max} />
                         </View>
                         <View style={styles.reportLine}>
                             <Text style={styles.cardPText}>Pior sinal: {item.min + " dbm"}</Text>
-                            <WifiIcon size={20} notCalculate={true} dbm={item.min} />
+                            <WifiIconStatic size={20} dbm={item.min} />
                         </View>
                         <View style={styles.reportLine}>
                             <Text style={styles.cardPText}>Média sinal: {item.avg + " dbm"}</Text>
-                            <WifiIcon size={20} notCalculate={true} dbm={item.avg} />
+                            <WifiIconStatic size={20} dbm={item.avg} />
                         </View>
                     </View>
                     <TouchableOpacity
@@ -123,24 +126,24 @@ export default class Room extends Component {
                     width={Dimensions.get("window").width}
                     height={300}
                     fromZero={true}
+                    yAxisSuffix={" %"}
                     chartConfig={{
                         backgroundColor: "#A9A9A9",
                         backgroundGradientFrom: "#A9A9A9",
                         backgroundGradientTo: "#A9A9A9",
-                        decimalPlaces: 2, // optional, defaults to 2dp
+                        paddingRight: 30,
+                        paddingTop: 30,
+                        horizontalOffset: 10,
+                        count: 10,
+                        decimalPlaces: 0,
+                        style: {
+                            paddingRight: 30
+                        },
                         color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                         labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                        style: {
-                            borderRadius: 16
-                        },
-                        propsForDots: {
-                            r: "3",
-                            strokeWidth: "5",
-                            stroke: "#00BFFF"
-                        }
                     }}
-                    verticalLabelRotation={20}
-                    xLabelsOffset={-40}
+                    verticalLabelRotation={90}
+                    xLabelsOffset={-45}
                     segments={5}
                 />
                 <FlatList

@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 
-import WifiIcon from './WifiIcon';
+import WifiIconStatic from './WifiIconStatic';
 
 export default class WifiList extends Component {
 
@@ -67,10 +67,9 @@ export default class WifiList extends Component {
     renderItem = ({ item }) => {
         return (
             <View style={styles.cardBox}>
-                <View style={styles.cardData}>
-                    <WifiIcon
-                        size={100}
-                        notCalculate={true}
+                <View style={styles.cardDataIcon}>
+                    <WifiIconStatic
+                        size={90}
                         dbm={item.level}
                     />
                 </View>
@@ -146,6 +145,10 @@ const styles = StyleSheet.create({
     },
     cardData: {
         padding: 8,
+    },
+    cardDataIcon: {
+        paddingLeft: 12,
+        paddingRight: 8
     },
     h1Text: {
         fontSize: 32,

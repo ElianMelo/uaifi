@@ -73,6 +73,16 @@ export default class Home extends Component {
                     >
                     </Button>
                 </View>
+                <View style={styles.buttonView}>
+                    <Button
+                        style={styles.button}
+                        title="Ajuda"
+                        onPress={() =>
+                            this.state.props.navigation.navigate('Help')
+                        }
+                    >
+                    </Button>
+                </View>
                 
             </View >
         );
