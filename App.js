@@ -37,7 +37,7 @@ export default class App extends Component {
           <Stack.Screen name="Home" component={Home} options={{ title: 'Página Inicial' }}/>
           <Stack.Screen name="Room" component={Room} options={{ title: 'Cômodos' }}/>
           <Stack.Screen name="CreateRoom" component={CreateRoom} options={{ title: 'Criar Cômodo' }}/>
-          <Stack.Screen name="WifiList" component={WifiList} options={{ title: 'Lista de Wifi' }}/>
+          <Stack.Screen name="WifiList" component={WifiList} options={{ title: 'Lista de WiFi' }}/>
           <Stack.Screen name="Report" component={Report} options={{ title: 'Relatório' }}/>
         </Stack.Navigator>
       </NavigationContainer>

@@ -33,6 +33,7 @@ export default class WifiIcon extends Component {
         let interval;
 
         setTimeout(() => {
+            this.setSignal(this.props.dbm);
             interval = setInterval(() => {
                 if(this.props.dbm) {
                     this.setSignal(this.props.dbm);

@@ -78,21 +78,21 @@ export default class Room extends Component {
             <View style={styles.card}>
                 <View style={styles.cardRows}>    
                     <View style={styles.cardAvgIcon}>
-                        <WifiIcon size={100} notCalculate={true} dbm={item.avg} />
+                        <WifiIcon size={70} notCalculate={true} dbm={item.avg} />
                     </View>
                     <View>
                         <Text style={styles.cardH1Text}>{item.name}</Text>
                         <View style={styles.reportLine}>
                             <Text style={styles.cardPText}>Melhor sinal: {item.max + " dbm"}</Text>
-                            <WifiIcon size={30} notCalculate={true} dbm={item.max} />
+                            <WifiIcon size={20} notCalculate={true} dbm={item.max} />
                         </View>
                         <View style={styles.reportLine}>
                             <Text style={styles.cardPText}>Pior sinal: {item.min + " dbm"}</Text>
-                            <WifiIcon size={30} notCalculate={true} dbm={item.min} />
+                            <WifiIcon size={20} notCalculate={true} dbm={item.min} />
                         </View>
                         <View style={styles.reportLine}>
                             <Text style={styles.cardPText}>Média sinal: {item.avg + " dbm"}</Text>
-                            <WifiIcon size={30} notCalculate={true} dbm={item.avg} />
+                            <WifiIcon size={20} notCalculate={true} dbm={item.avg} />
                         </View>
                     </View>
                     <TouchableOpacity
@@ -170,7 +170,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#B1B1B1",
         borderRadius: 10,
         margin: 10,
-        padding: 10
+        padding: 8,
+        paddingBottom: 12
     },
     cardRows: {
         display: 'flex',
@@ -178,7 +179,8 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     cardAvgIcon: {
-        padding: 20
+        paddingRight: 20,
+        paddingLeft: 10
     },
     reportLine: {
         display: 'flex',
@@ -203,6 +205,7 @@ const styles = StyleSheet.create({
     },
     cardH1Text: {
         fontSize: 20,
+        paddingBottom: 8,
         fontWeight: 'bold',
         color: "#000"
     },
@@ -221,8 +224,8 @@ const styles = StyleSheet.create({
     },
     removeButton: {
         position: "absolute",
-        top: 0,
-        right: 0,
+        top: 4,
+        right: 4,
         width: 30,
         height: 30,
         borderRadius: 60 / 2,
