@@ -47,7 +47,7 @@ export default class JsonService {
         if(await RNFS.exists(FILEPATH)) {
             let rooms = await this.getRooms();
             rooms = rooms.filter(function(item) {
-                return item.name !== name
+                return item.name != name
             });
             await this.setRooms(rooms);
         }
