@@ -20,12 +20,10 @@ export default class JsonService {
 
         let res = await RNFS.readFile(FILEPATH, 'utf8').then();
 
-        if(res) {
-            try {
-                return JSON.parse(res);
-            } catch(err) {
-                return [];
-            }
+        try {
+            return JSON.parse(res);
+        } catch(err) {
+            return null;
         }
     }
 
@@ -35,7 +33,7 @@ export default class JsonService {
         let nameInUse = false;
         if(await RNFS.exists(FILEPATH)) {
             let rooms = await this.getRooms().then();
-            let item = rooms.find(i => i.name == name);
+            let item = rooms?.find(i => i.name == name);
             nameInUse = (item?.name ? true : false);
         }
         return nameInUse;
@@ -46,8 +44,8 @@ export default class JsonService {
 
         if(await RNFS.exists(FILEPATH)) {
             let rooms = await this.getRooms();
-            rooms = rooms.filter(function(item) {
-                return item.name != name
+            rooms = rooms?.filter(function(item) {
+                return item?.name != name
             });
             await this.setRooms(rooms);
         }

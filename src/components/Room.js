@@ -51,12 +51,14 @@ export default class Room extends Component {
 
     readRooms = async () => {
         let rooms = await JsonService.getRooms();
-        this.setState({ rooms });
+        if(rooms) {
+            this.setState({ rooms });
+        }
 
         this.setState({ labels: [] });
         this.setState({ data: [] });
 
-        rooms.forEach((item) => {
+        rooms?.forEach((item) => {
             this.setState({ labels: [...this.state.labels, item.name] });
             this.setState({ data: [...this.state.data, IntervalService.calcInterval(item.avg).graph] });
         });

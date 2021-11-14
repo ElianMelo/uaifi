@@ -56,12 +56,22 @@ export default class CreateRoom extends Component {
         this.setState({ disableRoomName: true});
 
         let rooms = await JsonService.getRooms();
-        await JsonService.setRooms([...rooms, {
-            name: this.state.roomName,
-            max: this.state.max,
-            min: this.state.min,
-            avg: this.state.avg
-        }]);
+        if(rooms) {
+            await JsonService.setRooms([...rooms, {
+                name: this.state.roomName,
+                max: this.state.max,
+                min: this.state.min,
+                avg: this.state.avg
+            }]);
+        } else {
+            await JsonService.setRooms([{
+                name: this.state.roomName,
+                max: this.state.max,
+                min: this.state.min,
+                avg: this.state.avg
+            }]);
+        }
+        
         this.state.props.navigation.navigate('Room');
     }
 
