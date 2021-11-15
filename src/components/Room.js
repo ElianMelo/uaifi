@@ -90,19 +90,23 @@ export default class Room extends Component {
                     <View>
                         <Text style={styles.cardH1Text}>{item.name}</Text>
                         <View style={styles.reportLine}>
-                            <Text style={styles.cardPText}>Melhor sinal: {item.max + " dbm"}</Text>
+                            <Text style={styles.cardPText}>Melhor sinal:</Text>
+                            <Text>{item.max + " dbm"}</Text>
                             <WifiIconStatic size={20} dbm={item.max} />
                         </View>
                         <View style={styles.reportLine}>
-                            <Text style={styles.cardPText}>Pior sinal: {item.min + " dbm"}</Text>
+                            <Text style={styles.cardPText}>Pior sinal:</Text>
+                            <Text>{item.min + " dbm"}</Text>
                             <WifiIconStatic size={20} dbm={item.min} />
                         </View>
                         <View style={styles.reportLine}>
-                            <Text style={styles.cardPText}>Média sinal: {item.avg + " dbm"}</Text>
+                            <Text style={styles.cardPText}>Média sinal:</Text>
+                            <Text>{item.avg + " dbm"}</Text>
                             <WifiIconStatic size={20} dbm={item.avg} />
                         </View>
                         <View style={styles.reportLine}>
-                            <Text style={styles.cardPText}>Grau de oscilação: {item.variation}</Text>
+                            <Text style={styles.cardPText}>Grau de oscilação:</Text>
+                            <Text>{item.variation}</Text>
                         </View>
                     </View>
                     <TouchableOpacity
@@ -188,7 +192,15 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         margin: 10,
         padding: 8,
-        paddingBottom: 12
+        paddingBottom: 12,
+        shadowColor: "black",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 1,
+        shadowRadius: 2.22,
+        elevation: 5,
     },
     cardRows: {
         display: 'flex',
@@ -207,13 +219,15 @@ const styles = StyleSheet.create({
     cardPText: {
         fontSize: 14,
         color: "#000",
-        marginRight: 8
+        marginRight: 8,
+        fontWeight: "bold",
     },
     cardH1Text: {
         fontSize: 20,
         paddingBottom: 8,
         fontWeight: 'bold',
-        color: "#000"
+        color: "#0275d8",
+        textAlign: 'center'
     },
     addButton: {
         position: "absolute",
