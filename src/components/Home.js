@@ -10,25 +10,11 @@ import {
     SafeAreaView
 } from 'react-native';
 
-const wifiImages = [
-    require('../../assets/wificode1.png'),
-    require('../../assets/wificode2.png'),
-    require('../../assets/wificode3.png'),
-    require('../../assets/wificode4.png'),
-    require('../../assets/wificode5.png'),
-];
-
-import PermissionService from '../services/PermissionService';
-import IntervalService from '../services/IntervalService';
-import WifiService from '../services/WifiService';
-
 import WifiIcon from './WifiIcon';
-
 export default class Home extends Component {
 
     constructor(props) {
         super(props);
-        this.interval;
         this.state = {
             props: props,
             titleText: "Uai Fi",
@@ -69,6 +55,15 @@ export default class Home extends Component {
                         title="Relatório"
                         onPress={() =>
                             this.state.props.navigation.navigate('Report')
+                        }
+                    >
+                    </Button>
+                </View>
+                <View style={styles.buttonView}>
+                    <Button
+                        title="Velocidade"
+                        onPress={() =>
+                            this.state.props.navigation.navigate('Speed')
                         }
                     >
                     </Button>
