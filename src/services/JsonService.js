@@ -1,6 +1,6 @@
-const FILEPATH = RNFS.DocumentDirectoryPath + "/rooms.json";
-
 import RNFS from 'react-native-fs';
+
+const FILEPATH = RNFS.DocumentDirectoryPath + "/rooms.json";
 
 import PermissionService from './PermissionService';
 
