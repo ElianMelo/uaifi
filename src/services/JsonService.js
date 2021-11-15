@@ -21,6 +21,7 @@ export default class JsonService {
         let res = await RNFS.readFile(FILEPATH, 'utf8').then();
 
         try {
+            console.log(res);
             return JSON.parse(res);
         } catch(err) {
             return null;
@@ -47,7 +48,10 @@ export default class JsonService {
             rooms = rooms?.filter(function(item) {
                 return item?.name != name
             });
-            await this.setRooms(rooms);
+            
+            await RNFS.unlink(FILEPATH)
+            await RNFS.writeFile(FILEPATH, JSON.stringify(rooms), 'utf8').then();
+            return true;
         }
     }
 
