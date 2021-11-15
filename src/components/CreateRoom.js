@@ -17,7 +17,7 @@ import {
 } from "react-native-chart-kit";
 
 import WifiService from '../services/WifiService';
-import JsonService from '../services/JsonService';
+import RoomService from '../services/RoomService';
 import IntervalService from '../services/IntervalService';
 
 export default class CreateRoom extends Component {
@@ -65,9 +65,9 @@ export default class CreateRoom extends Component {
         this.setState({ max, min, avg, variation, pieGraph });
         this.setState({ disableRoomName: true});
 
-        let rooms = await JsonService.getRooms();
+        let rooms = await RoomService.getRooms();
         if(rooms) {
-            await JsonService.setRooms([...rooms, {
+            await RoomService.setRooms([...rooms, {
                 name: this.state.roomName,
                 max: this.state.max,
                 min: this.state.min,
@@ -76,7 +76,7 @@ export default class CreateRoom extends Component {
                 pieGraph: this.state.pieGraph
             }]);
         } else {
-            await JsonService.setRooms([{
+            await RoomService.setRooms([{
                 name: this.state.roomName,
                 max: this.state.max,
                 min: this.state.min,
@@ -95,7 +95,7 @@ export default class CreateRoom extends Component {
             this.setState({ modalVisible: true });
             return;
         }
-        if(await JsonService.isRoomNameInUse(this.state.roomName)) {
+        if(await RoomService.isRoomNameInUse(this.state.roomName)) {
             this.setState({ modalDescription: 'Nome de cômodo já está sendo utilizado'});
             this.setState({ modalVisible: true });
             return;
@@ -225,9 +225,6 @@ export default class CreateRoom extends Component {
 }
 
 const styles = StyleSheet.create({
-    graph: {
-        margin: 10
-    },
     nameInput: {
         display: 'flex',
         flexDirection: 'row',
@@ -272,24 +269,6 @@ const styles = StyleSheet.create({
         textAlign: "center",
         color: "#000"
     },
-    addButton: {
-        position: "absolute",
-        bottom: 32,
-        right: 32,
-        width: 60,
-        height: 60,
-        borderRadius: 60 / 2,
-        paddingLeft: 22,
-        paddingTop: 7,
-        alignSelf: "flex-end",
-        backgroundColor: "#2196F3",
-        textAlign: "center"
-    },
-    addText: {
-        fontSize: 32,
-        color: "#FFF",
-        fontWeight: "900"
-    },
     centeredView: {
         flex: 1,
         justifyContent: "center",
@@ -316,9 +295,6 @@ const styles = StyleSheet.create({
         padding: 10,
         paddingHorizontal: 20,
         elevation: 2
-    },
-    buttonOpen: {
-        backgroundColor: "#F194FF",
     },
     buttonClose: {
         backgroundColor: "#2196F3",

@@ -4,13 +4,10 @@ import {
     StyleSheet,
     Text,
     View,
-    Image,
-    TouchableOpacity,
     Button,
-    SafeAreaView
 } from 'react-native';
 
-import WifiIcon from './WifiIcon';
+import WifiIconSelfRefresh from './WifiIconSelfRefresh';
 export default class Home extends Component {
 
     constructor(props) {
@@ -31,8 +28,8 @@ export default class Home extends Component {
                     </Text>
                     <Text style={styles.h2Text}>{this.state.descriptionText}</Text>
                 </View>
-                <WifiIcon size={100} showDescription={true}/>
-                <View style={styles.buttonView}> 
+                <WifiIconSelfRefresh size={100} />
+                <View style={styles.buttonView}>
                     <Button
                         title="Cômodos"
                         onPress={() =>
@@ -69,8 +66,7 @@ export default class Home extends Component {
                     >
                     </Button>
                 </View>
-                
-            </View >
+            </View>
         );
     }
 }
@@ -95,16 +91,5 @@ const styles = StyleSheet.create({
         marginLeft: 6,
         textAlign: "center",
         color: "#000"
-    },
-    pText: {
-        fontSize: 12,
-        color: "#000"
-    },
-    roomButton: {
-        display: 'flex',
-        alignItems: 'center'
-    },
-    roomButton2: {
-        width: 200
     },
 });

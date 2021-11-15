@@ -21,7 +21,6 @@ export default class PermissionService {
                 return true;
             }
         } catch (err) {
-            console.warn(err)
             return false;
         }
     }
@@ -43,7 +42,6 @@ export default class PermissionService {
                 return true;
             }
         } catch (err) {
-            console.warn(err)
             return false;
         }
     }
@@ -65,7 +63,6 @@ export default class PermissionService {
                 return true;
             }
         } catch (err) {
-            console.warn(err)
             return false;
         }
     }

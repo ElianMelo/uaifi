@@ -6,13 +6,10 @@ import {
     View,
     Text,
     ScrollView,
-    Button,
-    TouchableOpacity,
-    Dimensions,
     FlatList
 } from 'react-native';
 
-import JsonService from '../services/JsonService';
+import RoomService from '../services/RoomService';
 
 import PieChartSignal from './PieChartSignal';
 
@@ -53,7 +50,7 @@ export default class Report extends Component {
     }
 
     readRooms = async () => {
-        let rooms = await JsonService.getRooms();
+        let rooms = await RoomService.getRooms();
         if (rooms) {
             this.setState({ rooms });
 
@@ -177,9 +174,6 @@ export default class Report extends Component {
 }
 
 const styles = StyleSheet.create({
-    graph: {
-        margin: 10
-    },
     reportLine: {
         display: 'flex',
         flexDirection: "row",
@@ -225,23 +219,5 @@ const styles = StyleSheet.create({
         color: "#000",
         fontSize: 20,
     },
-    addButton: {
-        position: "absolute",
-        bottom: 32,
-        right: 32,
-        width: 60,
-        height: 60,
-        borderRadius: 60 / 2,
-        paddingLeft: 22,
-        paddingTop: 7,
-        alignSelf: "flex-end",
-        backgroundColor: "#2196F3",
-        textAlign: "center"
-    },
-    addText: {
-        fontSize: 32,
-        color: "#FFF",
-        fontWeight: "900"
-    }
 });
 

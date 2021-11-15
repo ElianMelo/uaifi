@@ -18,7 +18,7 @@ import {
 } from "react-native-chart-kit";
 import IntervalService from '../services/IntervalService';
 
-import JsonService from '../services/JsonService';
+import RoomService from '../services/RoomService';
 
 import WifiIconStatic from './WifiIconStatic';
 
@@ -54,7 +54,7 @@ export default class Room extends Component {
     }
 
     readRooms = async () => {
-        let rooms = await JsonService.getRooms();
+        let rooms = await RoomService.getRooms();
         if (rooms) {
             this.setState({ rooms });
         }
@@ -76,7 +76,7 @@ export default class Room extends Component {
     }
 
     deleteItem = async (name) => {
-        await JsonService.removeRoom(name);
+        await RoomService.removeRoom(name);
         await this.readRooms();
     }
 
@@ -180,9 +180,6 @@ export default class Room extends Component {
 }
 
 const styles = StyleSheet.create({
-    graph: {
-        margin: 10
-    },
     card: {
         display: 'flex',
         flexDirection: 'column',
@@ -206,17 +203,6 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: "row",
         alignItems: "center",
-    },
-    h1Text: {
-        fontSize: 32,
-        margin: 16,
-        fontWeight: "bold",
-        textAlign: "center",
-        color: "#000"
-    },
-    pText: {
-        fontSize: 16,
-        color: "#000"
     },
     cardPText: {
         fontSize: 14,
@@ -258,10 +244,6 @@ const styles = StyleSheet.create({
         fontSize: 32,
         color: "#FFF",
         fontWeight: "900"
-    },
-    removeText: {
-        fontSize: 12,
-        color: "#FFF",
     },
 });
 

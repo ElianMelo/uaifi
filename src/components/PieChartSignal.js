@@ -2,8 +2,6 @@
 import React, { Component } from 'react';
 
 import {
-    StyleSheet,
-    View,
     Dimensions
 } from 'react-native';
 
@@ -19,8 +17,8 @@ const chartConfig = {
     backgroundGradientTo: "#08130D",
     backgroundGradientToOpacity: 0.5,
     color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-    strokeWidth: 2, // optional, default 3
-    useShadowColorFromDataset: false // optional
+    strokeWidth: 2, 
+    useShadowColorFromDataset: false
 };
 export default class PieChartSignal extends Component {
 
@@ -83,9 +81,3 @@ export default class PieChartSignal extends Component {
         );
     }
 }
-
-const styles = StyleSheet.create({
-    graph: {
-        margin: 10
-    }
-});

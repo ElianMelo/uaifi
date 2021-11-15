@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
-import WifiService from '../services/WifiService';
 
 import {
     StyleSheet,
     View,
     Text,
     FlatList,
-    Button,
-    TouchableOpacity,
     Dimensions
 } from 'react-native';
 
-
+import WifiService from '../services/WifiService';
 import WifiIconStatic from './WifiIconStatic';
 
 export default class WifiList extends Component {
@@ -22,12 +19,12 @@ export default class WifiList extends Component {
             props: props,
             list: [
                 {
-                    "BSSID": "BSSID",
-                    "SSID": "nome da rede wifi",
-                    "capabilities": "[tecnologia]",
-                    "frequency": 0,
-                    "level": 0,
-                    "timestamp": 0
+                    BSSID: "BSSID",
+                    SSID: "nome da rede wifi",
+                    capabilities: "[tecnologia]",
+                    frequency: 0,
+                    level: 0,
+                    timestamp: 0
                 },
             ]
         };
@@ -91,7 +88,7 @@ export default class WifiList extends Component {
 
     render() {
         return (
-            <View style={{ flex: 1 , marginTop: 8}}>
+            <View style={{ flex: 1, marginTop: 8 }}>
                 <FlatList
                     data={this.state.list}
                     renderItem={this.renderItem}
@@ -103,34 +100,6 @@ export default class WifiList extends Component {
 }
 
 const styles = StyleSheet.create({
-    graph: {
-        margin: 10
-    },
-    h1Text: {
-        fontSize: 32,
-        margin: 16,
-        fontWeight: "bold",
-        textAlign: "center",
-        color: "#000"
-    },
-    addButton: {
-        position: "absolute",
-        bottom: 32,
-        right: 32,
-        width: 60,
-        height: 60,
-        borderRadius: 60 / 2,
-        paddingLeft: 22,
-        paddingTop: 7,
-        alignSelf: "flex-end",
-        backgroundColor: "#2196F3",
-        textAlign: "center"
-    },
-    addText: {
-        fontSize: 32,
-        color: "#FFF",
-        fontWeight: "900"
-    },
     cardBox: {
         backgroundColor: '#B1B1B1',
         margin: 8,
@@ -147,13 +116,6 @@ const styles = StyleSheet.create({
         paddingLeft: 12,
         paddingRight: 8
     },
-    h1Text: {
-        fontSize: 32,
-        margin: 16,
-        fontWeight: "bold",
-        textAlign: "center",
-        color: "#000",
-    },
     h2Text: {
         color: "#000",
         fontSize: 20,
@@ -166,10 +128,6 @@ const styles = StyleSheet.create({
     cardFooter: {
         color: "#000",
         fontSize: 8
-    },
-    tinyLogo: {
-        width: 100,
-        height: 100
     },
 });
 

@@ -4,7 +4,7 @@ const FILEPATH = RNFS.DocumentDirectoryPath + "/rooms.json";
 
 import PermissionService from './PermissionService';
 
-export default class JsonService {
+export default class RoomService {
 
     static getPermissions = async () => {
         await PermissionService.getReadPermission();

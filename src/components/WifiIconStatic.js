@@ -41,15 +41,8 @@ export default class WifiIconStatic extends Component {
 }
 
 const styles = StyleSheet.create({
-    bkg: {
-        backgroundColor: "white"
-    },
     imageBox: {
         display: "flex",
         alignItems: "center"
-    },
-    pText: {
-        fontSize: 12,
-        color: "#000"
     },
 });
