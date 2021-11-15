@@ -75,15 +75,28 @@ export default class WifiList extends Component {
                 </View>
                 <View style={styles.cardData}>
                     <Text style={styles.h2Text}>{item.SSID}</Text>
-                    <Text style={styles.pText}>
+                    <Text style={styles.typeText}>{"Frequência: "}</Text>
+                    <Text style={styles.pText}>{item.frequency + ' MHz\n' }</Text>
+
+                    <Text style={styles.typeText}>{"Nível de sinal: "}</Text>
+                    <Text style={styles.pText}>{item.level + ' dBm\n'}</Text>
+
+                    <Text style={styles.typeText}>{"Endereço MAC: "}</Text>
+                    <Text style={styles.pText}>{item.BSSID + '\n'}</Text>
+                    
+                    <Text style={styles.typeText}>{"Data: "}</Text>
+                    <Text style={styles.pText}>{this.calcTime(item.timestamp) + '\n'}</Text>
+                    {/* <Text style={styles.pText}>
                         {
                             "Frequência: " + item.frequency + ' MHz\n' +
                             "Nível de sinal: " + item.level + ' dBm\n' +
                             "Endereço MAC: " + item.BSSID + '\n' +
                             "Data: " + this.calcTime(item.timestamp) + '\n'
                         }
-                    </Text>
-                    <Text style={styles.cardFooter}>{"Tecnologias: " + item.capabilities}</Text>
+                    </Text> */}
+                    {/* <Text style={styles.cardFooter}>{"Tecnologias: " + item.capabilities}</Text> */}
+                    <Text style={styles.typeText}>{"Tecnologias: "}</Text>
+                    <Text style={styles.cardFooter}>{item.capabilities}</Text>
                 </View>
             </View>
         )
@@ -152,6 +165,10 @@ const styles = StyleSheet.create({
         margin: 16,
         fontWeight: "bold",
         textAlign: "center",
+        color: "#000",
+    },
+    typeText: {
+        fontWeight: "bold",
         color: "#000",
     },
     h2Text: {
