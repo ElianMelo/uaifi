@@ -48,13 +48,21 @@ export default class CreateRoom extends Component {
 
     createReport = async () => {
         let data = this.state.data;
+
+        let pieGraph = [0, 0, 0, 0, 0];
+
+        data.forEach((dbm) => {
+            let position = IntervalService.calcInterval(dbm).code-1
+            pieGraph[position] += 1;
+        });
+
         let max = Math.max(...data);
         let min = Math.min(...data);
         let sum = data.reduce((a, b) => a + b, 0);
         let avg = (sum / data.length).toFixed(2) || 0;
         let variation = IntervalService.calcOscillation(Math.abs(min) - Math.abs(max));
 
-        this.setState({ max, min, avg, variation });
+        this.setState({ max, min, avg, variation, pieGraph });
         this.setState({ disableRoomName: true});
 
         let rooms = await JsonService.getRooms();
@@ -64,7 +72,8 @@ export default class CreateRoom extends Component {
                 max: this.state.max,
                 min: this.state.min,
                 avg: this.state.avg,
-                variation: this.state.variation
+                variation: this.state.variation,
+                pieGraph: this.state.pieGraph
             }]);
         } else {
             await JsonService.setRooms([{
@@ -72,7 +81,8 @@ export default class CreateRoom extends Component {
                 max: this.state.max,
                 min: this.state.min,
                 avg: this.state.avg,
-                variation: this.state.variation
+                variation: this.state.variation,
+                pieGraph: this.state.pieGraph
             }]);
         }
         

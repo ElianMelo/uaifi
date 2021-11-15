@@ -10,7 +10,59 @@ import {
     Dimensions
 } from 'react-native';
 
+import { PieChart } from 'react-native-chart-kit';
+
 import JsonService from '../services/JsonService';
+
+const data = [
+    {
+        name: "Inutilizavel",
+        population: 0,
+        color: "#ff0000",
+        legendFontColor: "#7F7F7F",
+        legendFontSize: 15
+    },
+    {
+        name: "Fraco",
+        population: 0,
+        color: "#fbff00",
+        legendFontColor: "#7F7F7F",
+        legendFontSize: 15
+    },
+    {
+        name: "Bom",
+        population: 0,
+        color: "#b1f01a",
+        legendFontColor: "#7F7F7F",
+        legendFontSize: 15
+    },
+    {
+        name: "Muito bom",
+        population: 12,
+        color: "#62ff00",
+        legendFontColor: "#7F7F7F",
+        legendFontSize: 15
+    },
+    {
+        name: "Excelente",
+        population: 14,
+        color: "#00ff14",
+        legendFontColor: "#7F7F7F",
+        legendFontSize: 15
+    }
+];
+
+const chartConfig = {
+    backgroundGradientFrom: "#1E2923",
+    backgroundGradientFromOpacity: 0,
+    backgroundGradientTo: "#08130D",
+    backgroundGradientToOpacity: 0.5,
+    color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+    strokeWidth: 2, // optional, default 3
+    useShadowColorFromDataset: false // optional
+};
+
+const screenWidth = Dimensions.get("window").width;
 
 export default class Report extends Component {
 
@@ -44,13 +96,15 @@ export default class Report extends Component {
 
     readRooms = async () => {
         let rooms = await JsonService.getRooms();
-        if(rooms) {
+        if (rooms) {
             this.setState({ rooms });
 
             let dbmMax = [];
             let dbmMin = [];
             let dbmAvg = [];
-            
+
+            console.log(rooms);
+
             rooms.forEach((item) => {
                 dbmMax.push(Number(item.max));
                 dbmMin.push(Number(item.min));
@@ -78,6 +132,16 @@ export default class Report extends Component {
                     <Text style={styles.pText}>Pior sinal: {this.state.globalMin}</Text>
                     <Text style={styles.pText}>Média sinal: {this.state.globalAvg}</Text>
                 </View>
+                <PieChart
+                    data={data}
+                    width={screenWidth - 10}
+                    height={200}
+                    chartConfig={chartConfig}
+                    accessor={"population"}
+                    backgroundColor={"transparent"}
+                    paddingLeft={"30"}
+                    absolute
+                />                
                 <TouchableOpacity
                     style={styles.addButton}
                     onPress={this.onPress}
@@ -120,7 +184,7 @@ const styles = StyleSheet.create({
         right: 32,
         width: 60,
         height: 60,
-        borderRadius: 60/2,
+        borderRadius: 60 / 2,
         paddingLeft: 22,
         paddingTop: 7,
         alignSelf: "flex-end",
