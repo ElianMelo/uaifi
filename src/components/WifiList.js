@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import WifiService from '../services/WifiService';
 
 import {
     StyleSheet,
@@ -8,7 +9,7 @@ import {
     Dimensions
 } from 'react-native';
 
-import WifiService from '../services/WifiService';
+
 import WifiIconStatic from './WifiIconStatic';
 
 export default class WifiList extends Component {
@@ -30,13 +31,12 @@ export default class WifiList extends Component {
         };
     }
 
-    getWifiList = () => {
-        WifiService.getWifiList().then((wifiList) => {
-            this.setState({ list: [...wifiList] });
-        });
+    getWifiList = async() => {      
+        let wifiList = await WifiService.getWifiList();
+        this.setState({ list: [...wifiList] });
     }
 
-    componentDidMount(prevProps) {
+    componentDidMount() {
         this.getWifiList();
 
         this.setState({
@@ -45,8 +45,16 @@ export default class WifiList extends Component {
                 () => {
                     this.getWifiList();
                 }
-            )
+            ),
+            intervalGetList: setInterval(() => {
+                this.getWifiList();
+            }, 2000)
         })
+    }
+
+    componentWillUnmount() {
+        this.state.willFocusSubscription();
+        clearInterval(this.state.intervalGetList);
     }
 
     calcTime = (timestamp) => {
@@ -55,32 +63,53 @@ export default class WifiList extends Component {
             (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) +
             "/" + (date.getMonth() < 10 ? "0" + date.getMonth() : date.getMonth()) +
             "/" + date.getFullYear() +
-            " " + date.getHours() +
-            ":" + date.getMinutes() +
-            ":" + date.getSeconds()
+            " " + (date.getHours() < 10 ? "0" + date.getHours() : date.getHours()) +
+            ":" + (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()) +
+            ":" + (date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds())
         );
+    }
+
+    formatCapabilities = (cap) => {
+        let newCap = cap.split('][').join('] [');
+        return newCap;
     }
 
     renderItem = ({ item }) => {
         return (
             <View style={styles.cardBox}>
-                <View style={styles.cardDataIcon}>
-                    <WifiIconStatic
-                        size={90}
-                        dbm={item.level}
-                    />
+                <View style={styles.cardBoxLine}>
+                    <View style={styles.cardDataIcon}>
+                        <WifiIconStatic
+                            size={90}
+                            dbm={item.level}
+                        />
+                    </View>
+                    <View style={styles.cardData}>
+                        <Text style={styles.h2Text}>{item.SSID}</Text>
+
+                        <View style={styles.reportLine}>
+                            <Text style={styles.typeText}>{"Frequência: "}</Text>
+                            <Text style={styles.pText}>{(item.frequency / 1000).toFixed(2) + ' GHz'}</Text>
+                        </View>
+
+                        <View style={styles.reportLine}>
+                            <Text style={styles.typeText}>{"Nível de sinal: "}</Text>
+                            <Text style={styles.pText}>{item.level + ' dBm'}</Text>
+                        </View>
+
+                        <View style={styles.reportLine}>
+                            <Text style={styles.typeText}>{"Endereço MAC: "}</Text>
+                            <Text style={styles.pText}>{item.BSSID + ''}</Text>
+                        </View>
+
+                        <View style={styles.reportLine}>
+                            <Text style={styles.typeText}>{"Data: "}</Text>
+                            <Text style={styles.pText}>{this.calcTime(item.timestamp) + ''}</Text>
+                        </View>
+                    </View>
                 </View>
-                <View style={styles.cardData}>
-                    <Text style={styles.h2Text}>{item.SSID}</Text>
-                    <Text style={styles.pText}>
-                        {
-                            "Frequência: " + item.frequency + ' MHz\n' +
-                            "Nível de sinal: " + item.level + ' dBm\n' +
-                            "Endereço MAC: " + item.BSSID + '\n' +
-                            "Data: " + this.calcTime(item.timestamp) + '\n'
-                        }
-                    </Text>
-                    <Text style={styles.cardFooter}>{"Tecnologias: " + item.capabilities}</Text>
+                <View style={styles.reportLine}>
+                    <Text style={styles.cardFooter}>{"Tecnologias: " + this.formatCapabilities(item.capabilities)}</Text>
                 </View>
             </View>
         )
@@ -88,7 +117,7 @@ export default class WifiList extends Component {
 
     render() {
         return (
-            <View style={{ flex: 1, marginTop: 8 }}>
+            <View style={styles.max}>
                 <FlatList
                     data={this.state.list}
                     renderItem={this.renderItem}
@@ -100,11 +129,28 @@ export default class WifiList extends Component {
 }
 
 const styles = StyleSheet.create({
+    max: {
+        width: Dimensions.get("screen").width,
+    },
     cardBox: {
-        backgroundColor: '#B1B1B1',
+        backgroundColor: '#C0C0C0',
+        padding: 8,
         margin: 8,
-        width: Dimensions.get("window").width - 16,
+        width: Dimensions.get("screen").width - 16,
         borderRadius: 10,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        shadowColor: "black",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 1,
+        shadowRadius: 2.22,
+        elevation: 5,
+    },
+    cardBoxLine: {
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
@@ -116,18 +162,37 @@ const styles = StyleSheet.create({
         paddingLeft: 12,
         paddingRight: 8
     },
-    h2Text: {
+    h1Text: {
+        fontSize: 32,
+        margin: 16,
+        fontWeight: "bold",
+        textAlign: "center",
         color: "#000",
+    },
+    h2Text: {
+        color: "#0275d8",
         fontSize: 20,
         paddingBottom: 8,
         fontWeight: '900'
+    },
+    typeText: {
+        fontWeight: "bold",
+        color: "#000"
     },
     pText: {
         color: "#000",
     },
     cardFooter: {
         color: "#000",
-        fontSize: 8
+        fontSize: 10,
+        flex: 1,
+        flexWrap: 'wrap',
+        textAlign: 'center'
+    },
+    reportLine: {
+        display: 'flex',
+        flexDirection: "row",
+        alignItems: "center",
     },
 });
 
