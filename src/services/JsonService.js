@@ -6,6 +6,8 @@ import PermissionService from './PermissionService';
 
 export default class JsonService {
 
+    static lastSetLength = null;
+
     static getPermissions = async () => {
         await PermissionService.getReadPermission();
         await PermissionService.getWritePermission();
@@ -21,6 +23,10 @@ export default class JsonService {
         let res = await RNFS.readFile(FILEPATH, 'utf8').then();
 
         try {
+            if(this.lastSetLength) {
+                res = res.split(0, this.lastSetLength);
+            }
+
             return JSON.parse(res);
         } catch(err) {
             return null;
@@ -55,7 +61,9 @@ export default class JsonService {
         await this.getPermissions();
 
         let res = null;
-        res = await RNFS.writeFile(FILEPATH, JSON.stringify(newRooms), 'utf8').then();
+        let stringNewRooms = JSON.stringify(newRooms);
+        this.lastSetLength = stringNewRooms.length;
+        res = await RNFS.writeFile(FILEPATH, stringNewRooms, 'utf8').then();
 
         return res ? true : false;
     }
