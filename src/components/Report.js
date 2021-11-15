@@ -51,7 +51,7 @@ export default class Report extends Component {
 
     readRooms = async () => {
         let rooms = await RoomService.getRooms();
-        if (rooms) {
+        if (rooms?.length > 0) {
             this.setState({ rooms });
 
             let dbmMax = [];
@@ -93,19 +93,23 @@ export default class Report extends Component {
                 <PieChartSignal values={item.pieGraph} />
                 <View style={styles.card}>
                     <View style={styles.reportLine}>
-                        <Text style={styles.cardPText}>Melhor sinal: {item.max + " dbm"}</Text>
+                        <Text style={styles.cardPBoldText}>Melhor sinal:</Text>
+                        <Text style={styles.cardPText}>{item.max + " dbm"}</Text>
                         <WifiIconStatic size={20} dbm={item.max} />
                     </View>
                     <View style={styles.reportLine}>
-                        <Text style={styles.cardPText}>Pior sinal: {item.min + " dbm"}</Text>
+                        <Text style={styles.cardPBoldText}>Pior sinal:</Text>
+                        <Text style={styles.cardPText}>{item.min + " dbm"}</Text>
                         <WifiIconStatic size={20} dbm={item.min} />
                     </View>
                     <View style={styles.reportLine}>
-                        <Text style={styles.cardPText}>Média sinal: {item.avg + " dbm"}</Text>
+                        <Text style={styles.cardPBoldText}>Média sinal:</Text>
+                        <Text style={styles.cardPText}>{item.avg + " dbm"}</Text>
                         <WifiIconStatic size={20} dbm={item.avg} />
                     </View>
                     <View style={styles.reportLine}>
-                        <Text style={styles.cardPText}>Grau de oscilação: {item.variation}</Text>
+                        <Text style={styles.cardPBoldText}>Grau de oscilação:</Text>
+                        <Text style={styles.cardPText}>{item.variation}</Text>
                     </View>
                 </View>
 
@@ -119,8 +123,10 @@ export default class Report extends Component {
         return (
             <View>
                 <ScrollView nestedScrollEnabled={true}>
-                    <View style={styles.reportBox}>
+                    <View style={styles.backgroundTitleText}>
                         <Text style={styles.h2Text}>Relatório Global</Text>
+                    </View>
+                    <View style={styles.reportBox}>
                         <View style={styles.reportLine}>
                             <Text style={styles.pText}>Melhor sinal: {this.state.globalMax + " dBm "}</Text>
                             {
@@ -152,7 +158,7 @@ export default class Report extends Component {
                             null
                     }
 
-                    <View style={styles.reportBox}>
+                    <View style={styles.backgroundTitleText}>
                         <Text style={styles.h2Text}>Relatório por cômodo</Text>
                     </View>
                     <View>
@@ -189,9 +195,19 @@ const styles = StyleSheet.create({
         padding: 16
     },
     divideLine: {
-        backgroundColor: "black",
+        backgroundColor: "#B1B1B1",
         height: 3,
         margin: 4
+    },
+    cardPBoldText: {
+        fontSize: 14,
+        color: "#000",
+        fontWeight: 'bold',
+        marginRight: 4
+    },
+    backgroundTitleText: {
+        backgroundColor: "#B1B1B1",
+        paddingLeft: 8
     },
     cardPText: {
         fontSize: 14,

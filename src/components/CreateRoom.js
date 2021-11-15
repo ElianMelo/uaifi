@@ -164,7 +164,8 @@ export default class CreateRoom extends Component {
                         labels: this.state.labels,
                         datasets: [
                             {
-                                data: this.state.data
+                                data: this.state.data,
+                                color: (opacity = 1) => `rgba(2, 117, 216, ${opacity})`,
                             }
                         ]
                     }}
@@ -177,15 +178,15 @@ export default class CreateRoom extends Component {
                         backgroundGradientFrom: "#A9A9A9",
                         backgroundGradientTo: "#A9A9A9",
                         decimalPlaces: 0,
-                        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                        labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                        color: (opacity = 1) => `rgba(63, 143, 244, ${opacity})`,
+                        labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
                         style: {
                             borderRadius: 16
                         },
                         propsForDots: {
                             r: "2",
                             strokeWidth: "1",
-                            stroke: "#A9A9A9"
+                            stroke: "#0275d8"
                         }
                     }}
                     verticalLabelRotation={90}

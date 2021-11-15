@@ -132,7 +132,8 @@ export default class Room extends Component {
                         labels: this.state.labels,
                         datasets: [
                             {
-                                data: this.state.data
+                                data: this.state.data,
+                                color: (opacity = 1) => `rgba(2, 117, 216, ${opacity})`,
                             },
                         ]
                     }}
@@ -147,6 +148,8 @@ export default class Room extends Component {
                         backgroundColor: "#A9A9A9",
                         backgroundGradientFrom: "#A9A9A9",
                         backgroundGradientTo: "#A9A9A9",
+                        fillShadowGradient: "#0275d8",
+                        fillShadowGradientOpacity: 0.8,
                         paddingRight: 50,
                         paddingLeft: 50,
                         paddingTop: 50,
@@ -157,7 +160,7 @@ export default class Room extends Component {
                             paddingRight: 30
                         },
                         color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                        labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                        labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
                     }}
                     verticalLabelRotation={90}
                     xLabelsOffset={-45}
@@ -217,16 +220,18 @@ const styles = StyleSheet.create({
     },
     addButton: {
         position: "absolute",
-        bottom: 32,
-        right: 32,
+        bottom: 30,
+        right: 30,
         width: 60,
         height: 60,
         borderRadius: 60 / 2,
-        paddingLeft: 22,
-        paddingTop: 7,
         alignSelf: "flex-end",
         backgroundColor: "#2196F3",
-        textAlign: "center"
+        textAlign: "center",
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignContent: 'center'
     },
     removeButton: {
         position: "absolute",
@@ -241,9 +246,10 @@ const styles = StyleSheet.create({
         textAlign: "center"
     },
     addText: {
-        fontSize: 32,
+        fontSize: 40,
         color: "#FFF",
-        fontWeight: "900"
+        fontWeight: "900",
+        paddingBottom: 4
     },
 });
 

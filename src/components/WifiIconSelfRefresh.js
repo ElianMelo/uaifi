@@ -69,7 +69,7 @@ export default class WifiIconSelfRefresh extends Component {
                     source={wifiImages[this.state.signalCode ? this.state.signalCode : 0]}
                 />
                 <Text style={styles.pText}>{"Status do Sinal: " + this.state.signalDescription + "\n"}</Text>
-                <Text style={styles.pText}>{"Valor do Sinal em DBM: " + this.state.signalDbm + "\n"}</Text>
+                <Text style={styles.pText}>{"Valor do Sinal em dBm: " + this.state.signalDbm + "\n"}</Text>
             </View>
         );
     }

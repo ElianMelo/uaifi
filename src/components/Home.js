@@ -14,7 +14,7 @@ export default class Home extends Component {
         super(props);
         this.state = {
             props: props,
-            titleText: "Uai Fi",
+            titleText: "UaiFi",
             descriptionText: "Aplicativo para avaliar o sinal de WiFi",
         };
     }
