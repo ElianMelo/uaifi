@@ -34,7 +34,7 @@ export default class App extends Component {
   render() {
     return (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator initialRouteName="Report">
           <Stack.Screen name="Home" component={Home} options={{ title: 'Página Inicial' }}/>
           <Stack.Screen name="Room" component={Room} options={{ title: 'Cômodos' }}/>
           <Stack.Screen name="CreateRoom" component={CreateRoom} options={{ title: 'Criar Cômodo' }}/>

@@ -5,73 +5,31 @@ import {
     StyleSheet,
     View,
     Text,
+    ScrollView,
     Button,
     TouchableOpacity,
-    Dimensions
+    Dimensions,
+    FlatList
 } from 'react-native';
-
-import { PieChart } from 'react-native-chart-kit';
 
 import JsonService from '../services/JsonService';
 
-const data = [
-    {
-        name: "Inutilizavel",
-        population: 0,
-        color: "#ff0000",
-        legendFontColor: "#7F7F7F",
-        legendFontSize: 15
-    },
-    {
-        name: "Fraco",
-        population: 0,
-        color: "#fbff00",
-        legendFontColor: "#7F7F7F",
-        legendFontSize: 15
-    },
-    {
-        name: "Bom",
-        population: 0,
-        color: "#b1f01a",
-        legendFontColor: "#7F7F7F",
-        legendFontSize: 15
-    },
-    {
-        name: "Muito bom",
-        population: 12,
-        color: "#62ff00",
-        legendFontColor: "#7F7F7F",
-        legendFontSize: 15
-    },
-    {
-        name: "Excelente",
-        population: 14,
-        color: "#00ff14",
-        legendFontColor: "#7F7F7F",
-        legendFontSize: 15
-    }
-];
+import PieChartSignal from './PieChartSignal';
 
-const chartConfig = {
-    backgroundGradientFrom: "#1E2923",
-    backgroundGradientFromOpacity: 0,
-    backgroundGradientTo: "#08130D",
-    backgroundGradientToOpacity: 0.5,
-    color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-    strokeWidth: 2, // optional, default 3
-    useShadowColorFromDataset: false // optional
-};
-
-const screenWidth = Dimensions.get("window").width;
+import WifiIconStatic from './WifiIconStatic';
 
 export default class Report extends Component {
 
     constructor(props) {
+
         super(props);
         this.state = {
             props: props,
             willFocusSubscription: null,
             rooms: [],
+            globalPieChart: [0, 0, 0, 0, 0],
+            canShowGlobal: false,
+            canShowIcon: false,
             globalMax: 0,
             globalMin: 0,
             globalAvg: 0
@@ -102,13 +60,18 @@ export default class Report extends Component {
             let dbmMax = [];
             let dbmMin = [];
             let dbmAvg = [];
-
-            console.log(rooms);
+            let dbmPieChart = [0, 0, 0, 0, 0];
 
             rooms.forEach((item) => {
                 dbmMax.push(Number(item.max));
                 dbmMin.push(Number(item.min));
                 dbmAvg.push(Number(item.avg));
+
+                dbmPieChart[0] += item.pieGraph[0];
+                dbmPieChart[1] += item.pieGraph[1];
+                dbmPieChart[2] += item.pieGraph[2];
+                dbmPieChart[3] += item.pieGraph[3];
+                dbmPieChart[4] += item.pieGraph[4];
             });
 
             let globalMax = Math.max(...dbmMax);
@@ -117,37 +80,97 @@ export default class Report extends Component {
             let globalAvg = (sum / dbmAvg.length).toFixed(2) || 0;
 
             this.setState({ globalMax, globalMin, globalAvg });
+
+            this.setState({
+                globalPieChart: dbmPieChart,
+                canShowGlobal: true,
+                canShowIcon: true
+            });
         }
+    }
+
+    renderItem = ({ item }) => {
+        return (
+            <View>
+                <Text style={styles.h1Text}>{item.name}</Text>
+                <PieChartSignal values={item.pieGraph} />
+                <View style={styles.card}>
+                    <View style={styles.reportLine}>
+                        <Text style={styles.cardPText}>Melhor sinal: {item.max + " dbm"}</Text>
+                        <WifiIconStatic size={20} dbm={item.max} />
+                    </View>
+                    <View style={styles.reportLine}>
+                        <Text style={styles.cardPText}>Pior sinal: {item.min + " dbm"}</Text>
+                        <WifiIconStatic size={20} dbm={item.min} />
+                    </View>
+                    <View style={styles.reportLine}>
+                        <Text style={styles.cardPText}>Média sinal: {item.avg + " dbm"}</Text>
+                        <WifiIconStatic size={20} dbm={item.avg} />
+                    </View>
+                    <View style={styles.reportLine}>
+                        <Text style={styles.cardPText}>Grau de oscilação: {item.variation}</Text>
+                    </View>
+                </View>
+
+                <View style={styles.divideLine}>
+                </View>
+            </View>
+        )
     }
 
     render() {
         return (
-            <View style={{ flex: 1 }}>
-                <Text style={styles.h1Text}>
-                    Relatório
-                </Text>
-                <View style={styles.reportBox}>
-                    <Text style={styles.h2Text}>Global</Text>
-                    <Text style={styles.pText}>Melhor sinal: {this.state.globalMax}</Text>
-                    <Text style={styles.pText}>Pior sinal: {this.state.globalMin}</Text>
-                    <Text style={styles.pText}>Média sinal: {this.state.globalAvg}</Text>
-                </View>
-                <PieChart
-                    data={data}
-                    width={screenWidth - 10}
-                    height={200}
-                    chartConfig={chartConfig}
-                    accessor={"population"}
-                    backgroundColor={"transparent"}
-                    paddingLeft={"30"}
-                    absolute
-                />                
-                <TouchableOpacity
-                    style={styles.addButton}
-                    onPress={this.onPress}
-                >
-                    <Text style={styles.addText}>+</Text>
-                </TouchableOpacity>
+            <View>
+                <ScrollView nestedScrollEnabled={true}>
+                    <View style={styles.reportBox}>
+                        <Text style={styles.h2Text}>Relatório Global</Text>
+                        <View style={styles.reportLine}>
+                            <Text style={styles.pText}>Melhor sinal: {this.state.globalMax + " dBm "}</Text>
+                            {
+                                this.state.canShowIcon ?
+                                    <WifiIconStatic size={30} dbm={this.state.globalMax} /> :
+                                    null
+                            }
+                        </View>
+                        <View style={styles.reportLine}>
+                            <Text style={styles.pText}>Pior sinal: {this.state.globalMin + " dBm "}</Text>
+                            {
+                                this.state.canShowIcon ?
+                                    <WifiIconStatic size={30} dbm={this.state.globalMin} /> :
+                                    null
+                            }
+                        </View>
+                        <View style={styles.reportLine}>
+                            <Text style={styles.pText}>Média sinal: {this.state.globalAvg + " dBm "}</Text>
+                            {
+                                this.state.canShowIcon ?
+                                    <WifiIconStatic size={30} dbm={this.state.globalAvg} /> :
+                                    null
+                            }
+                        </View>
+                    </View>
+                    {
+                        this.state.canShowGlobal ?
+                            <PieChartSignal values={this.state.globalPieChart} /> :
+                            null
+                    }
+
+                    <View style={styles.reportBox}>
+                        <Text style={styles.h2Text}>Relatório por cômodo</Text>
+                    </View>
+                    <View>
+                        {
+                            this?.state?.rooms[0]?.pieGraph ?
+                                (<FlatList
+                                    nestedScrollEnabled={true}
+                                    scrollEnabled={false}
+                                    data={this.state.rooms}
+                                    renderItem={this.renderItem}
+                                    keyExtractor={item => item.name}
+                                />) : null
+                        }
+                    </View>
+                </ScrollView>
             </View>
         );
     }
@@ -157,9 +180,33 @@ const styles = StyleSheet.create({
     graph: {
         margin: 10
     },
+    reportLine: {
+        display: 'flex',
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    card: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        backgroundColor: "#B1B1B1",
+        borderRadius: 10,
+        margin: 10,
+        padding: 16
+    },
+    divideLine: {
+        backgroundColor: "black",
+        height: 3,
+        margin: 4
+    },
+    cardPText: {
+        fontSize: 14,
+        color: "#000",
+        marginRight: 8
+    },
     h1Text: {
-        fontSize: 32,
-        margin: 16,
+        fontSize: 24,
+        margin: 8,
         fontWeight: "bold",
         textAlign: "center",
         color: "#000"

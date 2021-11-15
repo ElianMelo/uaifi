@@ -21,7 +21,6 @@ export default class JsonService {
         let res = await RNFS.readFile(FILEPATH, 'utf8').then();
 
         try {
-            console.log(res);
             return JSON.parse(res);
         } catch(err) {
             return null;
