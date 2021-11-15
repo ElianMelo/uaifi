@@ -18,6 +18,7 @@ import {
 
 import WifiService from '../services/WifiService';
 import JsonService from '../services/JsonService';
+import IntervalService from '../services/IntervalService';
 
 export default class CreateRoom extends Component {
 
@@ -51,8 +52,9 @@ export default class CreateRoom extends Component {
         let min = Math.min(...data);
         let sum = data.reduce((a, b) => a + b, 0);
         let avg = (sum / data.length).toFixed(2) || 0;
+        let variation = IntervalService.calcOscillation(Math.abs(min) - Math.abs(max));
 
-        this.setState({ max, min, avg });
+        this.setState({ max, min, avg, variation });
         this.setState({ disableRoomName: true});
 
         let rooms = await JsonService.getRooms();
@@ -61,14 +63,16 @@ export default class CreateRoom extends Component {
                 name: this.state.roomName,
                 max: this.state.max,
                 min: this.state.min,
-                avg: this.state.avg
+                avg: this.state.avg,
+                variation: this.state.variation
             }]);
         } else {
             await JsonService.setRooms([{
                 name: this.state.roomName,
                 max: this.state.max,
                 min: this.state.min,
-                avg: this.state.avg
+                avg: this.state.avg,
+                variation: this.state.variation
             }]);
         }
         

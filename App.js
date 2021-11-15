@@ -19,7 +19,6 @@ import Room from './src/components/Room';
 import CreateRoom from './src/components/CreateRoom';
 import WifiList from './src/components/WifiList';
 import Report from './src/components/Report';
-import Speed from './src/components/Speed';
 import Help from './src/components/Help';
 
 const Stack = createNativeStackNavigator();
@@ -41,7 +40,6 @@ export default class App extends Component {
           <Stack.Screen name="CreateRoom" component={CreateRoom} options={{ title: 'Criar Cômodo' }}/>
           <Stack.Screen name="WifiList" component={WifiList} options={{ title: 'Lista de WiFi' }}/>
           <Stack.Screen name="Report" component={Report} options={{ title: 'Relatório' }}/>
-          <Stack.Screen name="Speed" component={Speed} options={{ title: 'Velocidade' }}/>
           <Stack.Screen name="Help" component={Help} options={{ title: 'Ajuda' }}/>
         </Stack.Navigator>
       </NavigationContainer>

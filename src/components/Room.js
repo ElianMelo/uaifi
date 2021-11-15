@@ -8,6 +8,7 @@ import {
     FlatList,
     Button,
     TouchableOpacity,
+    Image,
     Dimensions
 } from 'react-native';
 
@@ -20,6 +21,9 @@ import IntervalService from '../services/IntervalService';
 import JsonService from '../services/JsonService';
 
 import WifiIconStatic from './WifiIconStatic';
+
+import icon from '../../assets/x.png';
+
 export default class Room extends Component {
 
     constructor(props) {
@@ -51,7 +55,7 @@ export default class Room extends Component {
 
     readRooms = async () => {
         let rooms = await JsonService.getRooms();
-        if(rooms) {
+        if (rooms) {
             this.setState({ rooms });
         }
 
@@ -79,7 +83,7 @@ export default class Room extends Component {
     renderItem = ({ item }) => {
         return (
             <View style={styles.card}>
-                <View style={styles.cardRows}>    
+                <View style={styles.cardRows}>
                     <View style={styles.cardAvgIcon}>
                         <WifiIconStatic size={70} dbm={item.avg} />
                     </View>
@@ -97,6 +101,9 @@ export default class Room extends Component {
                             <Text style={styles.cardPText}>Média sinal: {item.avg + " dbm"}</Text>
                             <WifiIconStatic size={20} dbm={item.avg} />
                         </View>
+                        <View style={styles.reportLine}>
+                            <Text style={styles.cardPText}>Grau de oscilação: {item.variation}</Text>
+                        </View>
                     </View>
                     <TouchableOpacity
                         style={styles.removeButton}
@@ -104,7 +111,13 @@ export default class Room extends Component {
                             this.deleteItem(item.name)
                         }}
                     >
-                        <Text style={styles.removeText}>❌</Text>
+                        <Image
+                            style={{
+                                width: 20,
+                                height: 20,
+                            }}
+                            source={icon}
+                        />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -235,9 +248,8 @@ const styles = StyleSheet.create({
         right: 4,
         width: 30,
         height: 30,
+        padding: 5,
         borderRadius: 60 / 2,
-        paddingLeft: 7.5,
-        paddingTop: 6,
         alignSelf: "flex-end",
         backgroundColor: "white",
         textAlign: "center"

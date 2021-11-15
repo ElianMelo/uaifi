@@ -22,70 +22,44 @@ export default class Help extends Component {
         super(props);
         this.state = {
             props: props,
-            willFocusSubscription: null,
             rooms: [],
-            tableHead: ['Ícone', 'Intervalo (dBm)', 'Classificação'],
-            tableData: [
+            tableHead1: ['Ícone', 'Intervalo (dBm)', 'Classificação'],
+            tableData1: [
                 [<WifiIconStatic dbm={-20} size={30}/>, '>= - 30', 'Excelente'],
                 [<WifiIconStatic dbm={-40} size={30}/>, '-67 <= x < -30', 'Muito bom'],
                 [<WifiIconStatic dbm={-70} size={30}/>, '-70 <= x < -67', 'Bom'],
                 [<WifiIconStatic dbm={-80} size={30}/>, '-80 <= x < -70', 'Fraco'],
                 [<WifiIconStatic dbm={-90} size={30}/>, '< -80', 'Inutilizável']
             ],
-            globalMax: 0,
-            globalMin: 0,
-            globalAvg: 0
+            tableHead2: ['Intervalo', 'Classificação'],
+            tableData2: [
+                ['<= 14', 'Estável'],
+                ['14 < x <= 28', 'Fraco'],
+                ['28 < x <= 42', 'Médio'],
+                ['42 < x <= 56', 'Alto'],
+                ['> 56', 'Instável']
+            ],
         };
-    }
-
-    componentDidMount() {
-        this.readRooms();
-        this.setState({
-            willFocusSubscription: this.state.props.navigation.addListener(
-                'focus',
-                () => {
-                    this.readRooms();
-                }
-            )
-        })
-    }
-
-    componentWillUnmount() {
-        this.state.willFocusSubscription();
-    }
-
-    readRooms = async () => {
-        let rooms = await JsonService.getRooms();
-        if (rooms) {
-            this.setState({ rooms });
-
-            let dbmMax = [];
-            let dbmMin = [];
-            let dbmAvg = [];
-
-            rooms.forEach((item) => {
-                dbmMax.push(Number(item.max));
-                dbmMin.push(Number(item.min));
-                dbmAvg.push(Number(item.avg));
-            });
-
-            let globalMax = Math.max(...dbmMax);
-            let globalMin = Math.min(...dbmMin);
-            let sum = dbmAvg.reduce((a, b) => a + b, 0);
-            let globalAvg = (sum / dbmAvg.length).toFixed(2) || 0;
-
-            this.setState({ globalMax, globalMin, globalAvg });
-        }
     }
 
     render() {
         return (
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1 , marginTop: 24}}>
+                <Text style={styles.h1Text}>Nível do Sinal</Text>
                 <View style={styles.reportBox}>
                     <Table borderStyle={{ borderWidth: 1 }}>
-                        <Row data={this.state.tableHead} flexArr={[1, 1, 1, 1]} style={styles.head} textStyle={styles.text} />
+                        <Row data={this.state.tableHead1} flexArr={[1, 1, 1, 1]} style={styles.head} textStyle={styles.text} />
                         <TableWrapper style={styles.wrapper}>
-                            <Rows data={this.state.tableData} flexArr={[1, 1, 1]} style={styles.row} textStyle={styles.text} />
+                            <Rows data={this.state.tableData1} flexArr={[1, 1, 1]} style={styles.row} textStyle={styles.text} />
+                        </TableWrapper>
+                    </Table>
+                </View>
+                <Text style={styles.h1Text}>Grau de Oscilação</Text>
+                <View style={styles.reportBox}>
+                    <Table borderStyle={{ borderWidth: 1 }}>
+                        <Row data={this.state.tableHead2} flexArr={[1, 1, 1, 1]} style={styles.head} textStyle={styles.text} />
+                        <TableWrapper style={styles.wrapper}>
+                            <Rows data={this.state.tableData2} flexArr={[1, 1, 1]} style={styles.row} textStyle={styles.text} />
                         </TableWrapper>
                     </Table>
                 </View>
@@ -104,6 +78,12 @@ export default class Help extends Component {
 const styles = StyleSheet.create({
     graph: {
         margin: 10
+    },
+    h1Text: {
+        fontSize: 32,
+        fontWeight: "bold",
+        textAlign: "center",
+        color: "#000"
     },
     container: { 
         flex: 1, 
@@ -125,13 +105,6 @@ const styles = StyleSheet.create({
     },
     text: { 
         textAlign: 'center',
-        color: "#000"
-    },
-    h1Text: {
-        fontSize: 32,
-        margin: 16,
-        fontWeight: "bold",
-        textAlign: "center",
         color: "#000"
     },
     reportBox: {

@@ -12,4 +12,18 @@ export default class IntervalService {
             return { code: 5, desc: "Excelente", graph: 100 };
         }
     }
+
+    static calcOscillation = (val) => {
+        if(val <= 14) {
+            return "Estável";
+        } else if(val <= 28) {
+            return "Fraco";
+        } else if(val <= 42) {
+            return "Médio";
+        } else if(val <= 56) {
+            return "Alto";
+        } else {
+            return "Instável";
+        }
+    }
 }

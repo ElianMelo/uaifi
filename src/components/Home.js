@@ -61,15 +61,6 @@ export default class Home extends Component {
                 </View>
                 <View style={styles.buttonView}>
                     <Button
-                        title="Velocidade"
-                        onPress={() =>
-                            this.state.props.navigation.navigate('Speed')
-                        }
-                    >
-                    </Button>
-                </View>
-                <View style={styles.buttonView}>
-                    <Button
                         style={styles.button}
                         title="Ajuda"
                         onPress={() =>
