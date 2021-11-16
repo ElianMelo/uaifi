@@ -1,6 +1,6 @@
 # UaiFi
 ## 📃 Resumo geral
-Repositório para o Hackaton UaiFi do Brain da Algar Telecom, através do aplicativo desenvolvido é possível avaliar a força do sinal wifi de forma geral e por cômodos através de gráficos e informações na tela, visualizar as redes wifi disponíveis e suas informações, obter um relatório da força de sinal todal da rede e também por cada cômodo da casa, além de visualizar a latência do sinal do wifi em que o usuário estiver conectado.
+Repositório para o Hackaton UaiFi do Brain da Algar Telecom, através do aplicativo desenvolvido é possível avaliar a força do sinal wifi de forma geral e por cômodos através de gráficos e informações na tela, visualizar as redes wifi disponíveis e suas informações, obter um relatório da força de sinal total da rede e também por cada cômodo da casa, além de visualizar a latência do sinal do wifi em que o usuário estiver conectado.
 
 ## 📌 Links importantes
 
