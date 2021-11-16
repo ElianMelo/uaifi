@@ -7,7 +7,7 @@ Repositório para o Hackaton UaiFi do Brain da Algar Telecom, através do aplica
  - [Link do APK](https://drive.google.com/file/d/1GN7gM6iKBxip60HrSRdm2sDWxB2d4J5F/view?usp=sharing)
  - [Documentação](https://docs.google.com/document/d/1MKHw4cRDiFHY-ZcF7fpRFYTrcdir6_GsNuZgLptFV5g/edit?usp=sharing)
  - [Apresentação](https://docs.google.com/presentation/d/1LfU5__jGtOk-8f6UMkZWVbiT2l6fQJuS_rtccioi9HU/edit?usp=sharing)
- - [Pitch](linkaqui.com)
+ - [Pitch](https://youtu.be/6Lktw95Zbl4)
 
 ## ✒️ Participantes
 - [Elian Melo](https://github.com/ElianMelo/)
